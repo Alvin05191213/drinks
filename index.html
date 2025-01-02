@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <title>index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 左側選單樣式 */
+        .side-menu {
+            width: 250px;
+            height: 100vh;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding-top: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: 0.3s;
+            border-right: 2px solid #34495e;
+        }
+
+        .side-menu a {
+            display: block;
+            padding: 14px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .side-menu a:hover,
+        .side-menu a.active {
+            background-color: #1abc9c;
+        }
+
+        /* 子選單樣式 */
+        .side-menu .submenu {
+            display: none;
+            background-color: #34495e;
+            padding-left: 20px;
+        }
+
+        .side-menu a.active + .submenu {
+            display: block;
+        }
+
+        .side-menu .submenu a {
+            font-size: 16px;
+        }
+
+        /* 主內容區 */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            transition: margin-left 0.3s;
+        }
+
+        .content-title {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .content-body {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .side-menu-toggle {
+            display: none;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .side-menu {
+                left: -250px;
+                width: 250px;
+                position: fixed;
+                top: 0;
+                transition: left 0.3s;
+            }
+
+            .side-menu.open {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .side-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                font-size: 30px;
+                color: #ecf0f1;
+                background-color: #2c3e50;
+                border: none;
+                padding: 10px;
+                border-radius: 50%;
+                cursor: pointer;
+                z-index: 100;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 左側選單-->
+    <div class="side-menu" id="sideMenu">
+        <a href="#" id="homeLink" class="active">首頁</a>
+        <a href="#" class="menu-item" data-target="submenu1">南京</a>
+        <div class="submenu" id="submenu1">
+            <a href="https://macutea.com.tw/drink.php">麻古茶坊</a>
+            <a href="https://www.teamagichand.com.tw/">茶的魔手</a>
+        </div>
+        <a href="#" class="menu-item" data-target="submenu2">中部</a>
+        <div class="submenu" id="submenu2">
+            <a href="https://8yotea.com/">八曜和茶</a>
+            <a href="https://www.aniceholiday.com.tw/">一沐日</a>
+        </div>
+        <a href="#" class="menu-item" data-target="submenu3">北部</a>
+        <div class="submenu" id="submenu3">
+            <a href="http://50lan.com/web/news.asp">50嵐</a>
+            <a href="https://www.chingshin.tw/news.php">清新福全</a>
+        </div>
+    </div>
+    <!-- 右主內容-->
+    <div class="main-content" id="mainContent">
+        <button class="side-menu-toggle" id="sideMenuToggle">☰</button>
+        <div class="content-title">首頁</div>
+        <div class="content-body" id="contentBody">
+            <p>台灣是個擁有豐富飲品文化的地方，各地區的特色飲品不僅表現出來了當地的風味，也體現了台灣獨特的飲食習慣。</p>
+        </div>
+    </div>
+
+    <script>
+        // 控制隱藏選單項目的顯示
+        const menuItems = document.querySelectorAll('.menu-item');
+        const subMenus = document.querySelectorAll('.submenu');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const target = item.getAttribute('data-target');
+                const submenu = document.getElementById(target);
+
+                // 顯示選單
+                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+
+                // 切換選單項目的高亮顯示
+                menuItems.forEach(link => link.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // 顯示首頁內容
+        const homeLink = document.getElementById('homeLink');
+        homeLink.addEventListener('click', () => {
+            document.getElementById('contentBody').innerHTML = '<p>歡迎來到首頁！請從左邊選單選擇內容。</p>';
+            menuItems.forEach(link => link.classList.remove('active'));
+            homeLink.classList.add('active');
+        });
+
+        // 切換左側選單
+        const sideMenuToggle = document.getElementById('sideMenuToggle');
+        const sideMenu = document.getElementById('sideMenu');
+        sideMenuToggle.addEventListener('click', () => {
+            sideMenu.classList.toggle('open');
+        });
+    </script>
+
+</body>
+
+</html>
